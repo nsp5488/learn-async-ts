@@ -1,1 +1,6 @@
 Explain the code execution based on the order of the messages logged in src/quiz/promise-2darray.txt.
+
+First, sum2DArray is called with the array2D defined above, 
+then the actual summation is set as an asynchronous call within the function and sum2DArray returns the promise from the asynchronous call.
+Then, sum2DArray is called with an empty array, which returns a rejected promise. 
+Finally, the first call to sum2DArray resolves and returns the summed value of array2D.
