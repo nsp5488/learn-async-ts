@@ -16,10 +16,10 @@ function sumRow(arr: number[]): Promise<number> {
     })
 }
 
-function sum2DArray2(arr:number[][]): Promise<number> {
-    return new Promise((resolve, reject) => {
+async function sum2DArray2(arr:number[][]): Promise<number> {
+    
         if(arr.length == 0) {
-            reject("Cannot sum an empty array")
+            throw new Error("Cannot sum an empty array")
         }
 
         let promises = new Array<Promise<number>>(arr.length);
@@ -28,14 +28,17 @@ function sum2DArray2(arr:number[][]): Promise<number> {
             promises[i] = sumRow(row);
             i++;
         }
-        Promise.all(promises).then((results) => {
+        try {
+            const rows:number[] = await Promise.all(promises);
+
             let total = 0;
-            results.forEach((result) => {
-                total += result;
-            })
-            resolve(total);
-        });
-    });
+            for (const num of rows) {
+                total += num;
+            }
+            return total;
+        } catch(err) {
+            throw new Error(`Failed to sum array: ${err}`)
+        }
 }
 
 const sum = sum2DArray2(array2D_1);
